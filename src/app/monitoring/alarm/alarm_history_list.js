@@ -1,3 +1,5 @@
+//# sourceURL=alarm_history_list.js
+
 'use strict';
 
 _SL.nmspc("alarm").histroyList = function(){

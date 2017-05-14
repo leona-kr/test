@@ -1,5 +1,6 @@
-'use strict';
+//# sourceURL=comuser_list.js
 
+'use strict';
 
 _SL.nmspc("user").list = function() {
 
@@ -16,7 +17,7 @@ _SL.nmspc("user").list = function() {
 		grid : $(mCfg.gridId)
 	},
 
-	ctrlCookie = new slui.cookies(),
+	ctrlCookie = new globalui.cookies(),
 
 	init = function() {
 		ctrlCookie.init(mCfg.gridId);

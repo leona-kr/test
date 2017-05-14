@@ -1,4 +1,5 @@
 //# sourceURL=login.js
+
 'use strict';
 
 _SL.nmspc("login").form = function() { 
@@ -33,7 +34,7 @@ _SL.nmspc("login").form = function() {
 		var cookieId;
 		
 		// 라이선스 체크
-		slui.notices.licence();
+		globalui.notices.licence();
 		
 		// Bind Event
 		m$.userId.on("keyup", onKeyupEnter);

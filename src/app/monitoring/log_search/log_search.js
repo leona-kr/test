@@ -1,8 +1,8 @@
 //# sourceURL=log_search.js
+
 'use strict';
 
 _SL.nmspc("logsearch").manager = function(){
-	//console.log("slapp.logsearch.manager exec.");
 	var
 	timeDiffFromServer,
 	hiddenFrameName		= "hiddenFrame",
@@ -212,7 +212,6 @@ slapp.logsearch.submit = function(){
 	_setChangedTime = function(){
 		slapp.logsearch.searchTime.from = slapp.logsearch.dnt.getSelectedTime('from');
 		slapp.logsearch.searchTime.to = slapp.logsearch.dnt.getSelectedTime('to');
-		//slapp.logsearch.searchTime.isPreset = slapp.logsearch.dnt.isPreset();
 		slapp.logsearch.searchTime.isPreset = slapp.logsearch.dnt.selectedTime.isPreset;
 	},
 	_uiTimeText = function(){
@@ -386,9 +385,6 @@ slapp.logsearch.query = function() {
 		if("selectionStart" in oEl) {
 			strFull = oEl.value;
 
-			//if(oEl.selectionStart == 0 && oEl.selectionEnd == 0) 
-				//oEl.selectionStart = oEl.selectionEnd = strFull.length;
-			
 			nSelStart = oEl.selectionStart;
 			nSelEnd = oEl.selectionEnd;
 			strFront = strFull.substring(0, nSelStart);
@@ -495,7 +491,6 @@ slapp.logsearch.layer = function(){
 	listSearchRecent = '#listSearchRecent',
 
 	classBtnSearch = 'btn-search',
-	//classBtnToggle = 'btn-toggle',
 	classParentLayer = 'area-layer-module',
 	classOpen = 'open',
 	classBtnDnt = 'btn-dnt',
@@ -615,10 +610,10 @@ slapp.logsearch.layer = function(){
 		if(isAuto){
 			_addBodyEvent();
 		}
-		slui.attach.setTransformSelect(layerSearch);
+		globalui.attach.setTransformSelect(layerSearch);
 		$(layerSearch+' .nano').nanoScroller();
 		$(layerSearch+' .nano-content').each(function(){
-			slui.event.unitWheel($(this));
+			globalui.event.unitWheel($(this));
 		})
 	},
 	_hideLayer = function(){
@@ -884,7 +879,7 @@ slapp.logsearch.assets = function(){
 				.on('click keydown',_eventClick);
 		});
 
-		slui.attach.tooltip(layerAsset);
+		globalui.attach.tooltip(layerAsset);
 	},
 	_search = function(index){
 		var input = layerAsset+' [type=text]';
@@ -1072,7 +1067,7 @@ slapp.logsearch.mysearch = function(){
 			});
 		});
 		$(listMysearch).parents('.nano').nanoScroller();
-		slui.attach.tooltip(listMysearch);
+		globalui.attach.tooltip(listMysearch);
 	},
 	_eventSetting = function(){
 		$(listMysearch+' li .'+classDelete).each(function(){
@@ -1172,7 +1167,7 @@ slapp.logsearch.mysearch = function(){
 						$lists.append('<li class="list-empty">공유된 검색조건이 없습니다</li>');
 					}
 
-					slui.attach.setTransforms(dlg);
+					globalui.attach.setTransforms(dlg);
 				}});
 			});
 
@@ -1238,10 +1233,10 @@ slapp.logsearch.mysearch = function(){
 				isModal: true, modalOpacity: 0.5,
 				cancelButton : $(dlg+' .'+classCancel),
 				initContent: function(){
-					slui.attach.setTransformSelect(dlg);
+					globalui.attach.setTransformSelect(dlg);
 				}
 			}).on('open',function(){
-				slui.attach.setTransformSelect(dlg);
+				globalui.attach.setTransformSelect(dlg);
 				$(this).find(".jqx-window-content").css({height:"initial", overflow:"visible"});
 			});
 
@@ -1347,7 +1342,7 @@ slapp.logsearch.mysearch = function(){
 				$(".chosen-container", $form).parent()
 					.attr("data-ui","tooltip")
 					.attr("data-text","표시필드가 변경되었습니다");
-				slui.attach.tooltip();
+				globalui.attach.tooltip();
 			} else {
 				$(".chosen-choices", $form).css("box-shadow","");
 
@@ -1382,7 +1377,7 @@ slapp.logsearch.mysearch = function(){
 			});
 			
 			_onChangeShare();
-			slui.attach.setTransformSelect(dlg);
+			globalui.attach.setTransformSelect(dlg);
 		},
 		
 		_onChangeShare = function() {
@@ -1502,7 +1497,7 @@ slapp.logsearch.dnt = function(){
 				$(layerDnt).is(':visible') ? _hideLayer() : _showLayer();
 			});
 	},
-	setSelectedTime = function(pos, num, index){		//console.log('set dnt senected Time!!>>>>>>>★ '+pos+' : '+num+' : '+index);
+	setSelectedTime = function(pos, num, index){
 		if( arguments.length === 2){
 			var times = [num.slice(0,4), num.slice(4,6), num.slice(6,8), num.slice(8,10), num.slice(10,12)];
 
@@ -1519,7 +1514,7 @@ slapp.logsearch.dnt = function(){
 			}
 		}
 	},
-	getSelectedTime = function(pos, index){			//console.log('get dnt senected Time!!>>>>>>>☆ '+pos+' : '+index);
+	getSelectedTime = function(pos, index){
 		var toTimes = selectedTime.to,
 		fromTimes =  selectedTime.from,
 		times;
@@ -1545,9 +1540,6 @@ slapp.logsearch.dnt = function(){
 
 		return times;
 	},
-	//isPreset = function() {
-	//	return selectedTime.isPreset;
-	//},
 	hideLayer = function(){
 		_hideLayer();
 	},
@@ -1689,14 +1681,14 @@ slapp.logsearch.dnt = function(){
 		} else if(mode == 'scroll'){
 			$(layerDnt+' .nano').nanoScroller();
 			$(layerDnt+' .nano-content').each(function(){
-				slui.event.unitWheel($(this));
+				globalui.event.unitWheel($(this));
 			});
 
 			_setScrollPosition();
 		} else {
 			$(layerDnt+' .nano').nanoScroller();
 			$(layerDnt+' .nano-content').each(function(){
-				slui.event.unitWheel($(this));
+				globalui.event.unitWheel($(this));
 			});
 
 			_setScrollPosition();
@@ -1857,7 +1849,6 @@ slapp.logsearch.dnt = function(){
 		selectedTime : selectedTime,
 		getSelectedTime : getSelectedTime,
 		setSelectedTime : setSelectedTime,
-		//isPreset : isPreset,
 		hideLayer : hideLayer
 	};
 }();
@@ -2009,11 +2000,11 @@ slapp.logsearch.dlgViewField = function() {
 			resizable: false, isModal: true, modalOpacity: 0.5,
 			cancelButton : $(dlg+' '+classCancel),
 			initContent: function(){
-				slui.attach.setTransformSelect(dlg);
+				globalui.attach.setTransformSelect(dlg);
 			}
 		}).on('open',function(){
 			$dlg.find(".jqx-window-content").css({height:"initial", overflow:"visible"});
-			slui.attach.setTransformSelect(dlg);
+			globalui.attach.setTransformSelect(dlg);
 		});
 		
 		$viewFields.chosen({
@@ -2119,17 +2110,13 @@ slapp.logsearch.dlgViewField = function() {
 			_alert("기본 표시필드는 삭제할 수 없습니다.");
 			return false;
 		}
-//		else if(viewName.indexOf(myFilterViewNamePrefix) == 0) {
-//			_alert("내검색조건에서 선택한 필드이므로 삭제할 수 없습니다.");
-//			return false;
-//		}
 		else {
 			_confirm("삭제 하시겠습니까?", { onAgree : function(){
 				$("body").requestData(urlDelete, { view_id : $viewId.val() }, {callback : function(rsData, rsCd, rsMsg){
 					$viewId.find(":selected").remove();
 					$viewId.val("");
 					_alert(rsMsg);
-					slui.attach.setTransformSelect(dlg);
+					globalui.attach.setTransformSelect(dlg);
 				}});
 			} } );
 		}
@@ -2183,7 +2170,7 @@ slapp.logsearch.dlgViewField = function() {
 				}
 				_alert(rsMsg);
 				refDynPaging.changeFieldCaption(rsData.view_fields.split(","));
-				slui.attach.setTransformSelect(dlg);
+				globalui.attach.setTransformSelect(dlg);
 			}
 		});
 	},
@@ -2212,7 +2199,7 @@ slapp.logsearch.dlgViewField = function() {
 				resizable: false, isModal: true, modalOpacity: 0.5,
 				cancelButton : $(dlg+' '+classCancel),
 				initContent: function(){
-					slui.attach.setTransformSelect(dlg);
+					globalui.attach.setTransformSelect(dlg);
 				}
 			});
 			

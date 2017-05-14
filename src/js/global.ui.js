@@ -1,8 +1,10 @@
+//# sourceURL=global.ui.js
+
 'use strict';
 
-var slui = slui || {};
+var globalui = globalui || {};
 
-slui.attach = function() {
+globalui.attach = function() {
 	var //container = (container != undefined)? container : 'body',
 	init = function(container){
 		var container = (container != undefined)? container : 'body';
@@ -28,7 +30,7 @@ slui.attach = function() {
 		// 폼에 input:text 하나일 경우 enter로 submit 방지
 		preventSingleInputSubmit(container);
 
-		// slui tooltip
+		// globalui tooltip
 		tooltip(container);
 	},
 	setDatepicker = function(_container){
@@ -103,8 +105,8 @@ slui.attach = function() {
 
 		if( $(_container+' [data-ui=tooltip]').size() < 1 ) return;
 
-		if( !document.getElementById('slui-tooltip') ){
-			$('body').append('<div id="slui-tooltip" class="slui-tooltip"><div class="slui-tooltip-text"></div></div>');
+		if( !document.getElementById('globalui-tooltip') ){
+			$('body').append('<div id="globalui-tooltip" class="globalui-tooltip"><div class="globalui-tooltip-text"></div></div>');
 		}
 
 		$(_container+' [data-ui=tooltip]').each(function(){
@@ -115,21 +117,21 @@ slui.attach = function() {
 			$(this).on('mousemove',function(event){
 				var x = event.pageX+15, y = event.pageY+20;
 				
-				$('#slui-tooltip').css({
+				$('#globalui-tooltip').css({
 					left : x+'px',
 					top : y+'px',
 					opacity : 100,
 					visibility : 'visible',
 					display : 'block'
 				});
-				$('#slui-tooltip > div').html(text);
+				$('#globalui-tooltip > div').html(text);
 			}).on('mouseleave',function(){
-				$('#slui-tooltip').css({
+				$('#globalui-tooltip').css({
 					opacity : 0,
 					visibility : 'hidden',
 					display : 'none'
 				});
-				$('#slui-tooltip > div').html('');
+				$('#globalui-tooltip > div').html('');
 			});
 		});
 	},
@@ -153,13 +155,13 @@ slui.attach = function() {
 		tooltip: tooltip
 	};
 }();
-Object.defineProperty( slui, 'attach', {
+Object.defineProperty( globalui, 'attach', {
 	enumerable: false,			// for-in 반복에서 object[key]로 접근 됨
 	writable: false,				// 읽기 전용 속성 설정
 	configurable: false			// 속성을 변경할 수 있는 여부
 });
 
-slui.event = function(){
+globalui.event = function(){
 	// prevent window mousewheel
 	var unitWheel = function($ele){		// $ele : scroll이 발생하는 jquery객체
 		if(!$ele) return;
@@ -217,7 +219,7 @@ slui.event = function(){
 		formOnlyNumber : formOnlyNumber
 	} 
 }();
-Object.defineProperty( slui, 'event', {
+Object.defineProperty( globalui, 'event', {
 	enumerable: false,			// for-in 반복에서 object[key]로 접근 됨
 	writable: false,				// 읽기 전용 속성 설정
 	configurable: false			// 속성을 변경할 수 있는 여부
@@ -225,8 +227,8 @@ Object.defineProperty( slui, 'event', {
 
 
 // dropdown 목록에 값을 쿠키로 관리할 경우 (jqxgrid, grid-table-group 등)
-slui.cookies = function(){}
-slui.cookies.prototype = {
+globalui.cookies = function(){}
+globalui.cookies.prototype = {
 	id : '',
 	defaultValue : 10,
 	prefix : "dd_",
@@ -286,7 +288,7 @@ slui.cookies.prototype = {
 			});
 		}
 	},
-	eventToggle : function(){			// slui.toggleLayer를 사용한 toggle버튼
+	eventToggle : function(){			// globalui.toggleLayer를 사용한 toggle버튼
 		var id = this.id,
 		prefix = this.prefix,
 		defaultValue = this.defaultValue,
@@ -305,7 +307,7 @@ slui.cookies.prototype = {
 	}
 };
 
-slui.headerlayer = function(){
+globalui.headerlayer = function(){
 	var _init = function(){
 		$('header .group-aside button:not(.btn-setting)').each(function(){
 			var target = '.'+$(this).data('hover-target');
@@ -372,7 +374,7 @@ slui.headerlayer = function(){
 }();
 
 //실시간 경고알림 & 공지사항
-slui.notices = function() {
+globalui.notices = function() {
 	var _ = {
 		container : 'notice-container',
 		danger : 'notice-danger',
@@ -402,8 +404,6 @@ slui.notices = function() {
 		strHref = location.pathname,
 		callbackTotalAlarm = function(data){
 			checkTotal = true;
-			//테스트 데이터
-			//var data = [{"info_page":"/event/search_event_list.html","status_nm":"High","alarm_deco":"경계 이상 발생","event_time":"20160711154200","alarm_cd":"1","alarm_nm":"전체위험도"},{"info_page":"/event/search_event_list.html","status_nm":"High","alarm_deco":"High 이상 발생","event_time":"20160711154200","alarm_cd":"3","alarm_nm":"일반이벤트"}];
 			if(data && data.length>0){
 				if(!(gDISPLAY_ALARM == 'dashboard' && strHref.indexOf('dashboard') == -1)){
 					_drawTotalItem(data);
@@ -417,8 +417,6 @@ slui.notices = function() {
 		},
 		callbackEventAlarm = function(data){
 			checkEvent = true;
-			//테스트 데이터
-			//var data = [{"event_cate_cd":"1","user_id":"sjsjss","event_nm":"[내부] 특정 위험국가 접근자 탐지","reg_time":"20160809202500","event_level":"1","dashboard_yn":"Y","level_nm":"Low","event_time":"201608092025"}];
 			if(data && data.length>0){
 				if(!(gDISPLAY_ALARM == 'dashboard' && strHref.indexOf('dashboard') == -1)){
 					_drawEventItem(data);
@@ -516,13 +514,6 @@ slui.notices = function() {
 	},
 	_drawEventItem = function(data){
 		var _maxline = 100;
-		/* 파라메터
-			start_time = event_time,
-			end_time = event_time +1분,
-			s_event_nm = event_nm,
-			s_event_cate_cd= event_cate_cd,
-			s_event_level = event_level */
-
 		if( $('.'+_.container+' .'+_.attention).size() == 0){
 			var $container = $('.'+_.container),
 			$item = $('<div />')
@@ -678,61 +669,13 @@ slui.notices = function() {
 		$('body').requestData('/common/license_check.json', {}, {callback : _licenceCont});
 	},
 	_licenceCont = function(rsJson){
-		//테스트 데이터 - 용량초과1
-		/*
-		rsJson = {
-			"warningPercentage":90,		"percentage":95,
-			"remainQuota":10,	"warningQuota":0,
-			"issueId":"시큐레이어_eyeCloudSIM-150105-18","issueDate":"20160524",
-			"warningQuota":7,
-			"LIMIT_EXCEED_DAY":3,
-			"diskUsage":0,"version":"2.5",
-			"remainQuota":10,"size":500,
-			"product":"eyeCloudSIM","quota":60,
-			"LIMIT_PERCENTAGE":120,"repeatExceedDay":2
-		};
-		//테스트 데이터 - 용량초과2
-		var rsJson = {
-			"warningPercentage":80,		"percentage":90,
-			"remainQuota":10,	"warningQuota":0,
-			"issueId":"시큐레이어_eyeCloudSIM-150105-18","issueDate":"20160524",
-			"warningQuota":7,
-			"LIMIT_EXCEED_DAY":3,
-			"diskUsage":0,"version":"2.5",
-			"remainQuota":10,"size":500,
-			"product":"eyeCloudSIM","quota":60,
-			"LIMIT_PERCENTAGE":120,"repeatExceedDay":0
-		};
-		//테스트 데이터 - 날짜 용량 둘 다
-		var rsJson = {
-			"warningPercentage":80,		"percentage":90,
-			"remainQuota":10,	"warningQuota":12,
-			"issueId":"시큐레이어_eyeCloudSIM-150105-18","issueDate":"20160524",
-			"warningQuota":7,
-			"LIMIT_EXCEED_DAY":3,
-			"diskUsage":0,"version":"2.5",
-			"remainQuota":10,"size":500,
-			"product":"eyeCloudSIM","quota":60,
-			"LIMIT_PERCENTAGE":120,"repeatExceedDay":0
-		};
-		//테스트 데이터 - 날짜 만료
-		var rsJson = {
-			"remainQuota":10,	"warningQuota":12,
-			"warningPercentage":90, "percentage":0,
-			"issueId":"시큐레이어_eyeCloudSIM-150105-18","issueDate":"20160524",
-			"LIMIT_EXCEED_DAY":3,
-			"diskUsage":0,"version":"2.5","size":500,
-			"product":"eyeCloudSIM","quota":60,
-			"LIMIT_PERCENTAGE":120,"repeatExceedDay":0
-		};*/
-
 		var
-		 STATUS_VALID = 0,				// 유효한 License
+		 STATUS_VALID = 0,							// 유효한 License
 		 STATUS_WARN_LOGIN_QUOTA = 1,	// 로그인 페이지에서 기간에 대한 주의 알림
-		 STATUS_WARN_LOGIN_SIZE = 2,	// 로그인 페이지에서 사용량에 대한 주의 알림
-		 STATUS_WARN_EVERY = 4,			// 모든 페이지에서 주의 알림
-		 STATUS_BLOCK_LOGIN = 8,		// 기간 또는 사용량 초과로 로그인 제한
-		 STATUS_INVALID = 16,			// 잘못된 License
+		 STATUS_WARN_LOGIN_SIZE = 2,		// 로그인 페이지에서 사용량에 대한 주의 알림
+		 STATUS_WARN_EVERY = 4,				// 모든 페이지에서 주의 알림
+		 STATUS_BLOCK_LOGIN = 8,				// 기간 또는 사용량 초과로 로그인 제한
+		 STATUS_INVALID = 16,					// 잘못된 License
 
 		 conts = '', licenseInfo = '', title = '',
 		 quota = rsJson.quota,
@@ -822,8 +765,8 @@ slui.notices = function() {
 	}
 }();
 
-//왼쪽 검정 배경 영역
-slui.sectionCols = function(){
+//LNB 검정 배경 영역
+globalui.sectionCols = function(){
 	var _init = function(){
 		if( $('.container > .section-container > [class*="-cols"]').size()>0 || $('.page-popup-area > .section-container > [class*=-cols]').size()>0 ){
 			_event();
@@ -894,13 +837,13 @@ slui.sectionCols = function(){
 }();
 
 // fusionchart config default
-slui.chart = {
+globalui.chart = {
 	chartConfig : {
 		"alignCaptionWithCanvas": "0",
 		"alternateHGridAlpha":"25",
 		"alternateVGridAlpha":"25",
 		"axisLineAlpha": "25",
-		"baseFont": "tahoma",//"baseFont": "Malgun Gothic",
+		"baseFont": "tahoma",
 		"baseFontSize": "11",
 		"borderAlpha":"100",
 		"bgAlpha": "100",
@@ -915,7 +858,7 @@ slui.chart = {
 		"legendBorderThickness": "0",
 		"legendShadow":"0",
 		"maxLabelHeight": "120",
-		"outCnvBaseFont": "tahoma",//"baseFont": "Malgun Gothic",
+		"outCnvBaseFont": "tahoma",
 		"outCnvBaseFontSize": "11",
 		"plotBorderAlpha": "53",
 		"plotfillalpha":"100",
@@ -950,14 +893,12 @@ slui.chart = {
 		"toolTipColor": "#ffffff",
 		"toolTipBgColor": "#000000",
 		"paletteColors": "#00c0dd, #92d050, #ffc000, #ff812d, #aa80fd, #2293e5, #ff9999, #42b642, #feac72, #c6e700, #2dbda5, #ff87e8, #6144ff"
-		//"paletteColors": "#35a0dd, #efbc13, #5f72b6, #4496d1, #84cae9, #f77c7c, #f1ad42, #73b873, #c6c6c6",
-			//#69ac1d, #eb6325,
 	}
 };
 
 
 
 $(document).ready(function(){
-	slui.attach.init('body');
-	slui.sectionCols.init();
+	globalui.attach.init('body');
+	globalui.sectionCols.init();
 });

@@ -95,22 +95,10 @@ window.loading = loading;
 							msg = "일시적인 장애가 발생하였습니다.<br>잠시후에 다시 실행해 주세요"
 						}
 
-						//if(code.indexOf(RESULT_CODE.ERR) != -1){
-						//	if( code == RESULT_CODE.ERROR_AUTH){
-						//		var t = (resp.result_msg != null) ? resp.result_msg : "권한이 없습니다";
-						//		_alert(t);
-						//	} else if ( code == RESULT_CODE.ERROR_DB){
-						//		var t = (resp.result_msg != null) ? resp.result_msg : "DB접속에 실패하였습니다.\n잠시후에 다시 실행해 주세요";
-						//		_alert(t);
-						//	}
-						//	console.log("[Error code] %c"+code,'color:red');
-
-						//} else if (code === RESULT_CODE.SUCCESS){
-							if(option.callback != null){
-								 var result = (resp.data != undefined) ? resp.data : {};//var result =  $.extend({}, {result : 1}, resp.data);
-								option.callback(result, code, msg);
-							}
-						//}
+						if(option.callback != null){
+							 var result = (resp.data != undefined) ? resp.data : {};
+							option.callback(result, code, msg);
+						}
 					},
 					complete: function(){
 						if(option.afterSend != null){
@@ -537,7 +525,7 @@ window.loading = loading;
 					that.collapsing(that);
 				});
 
-				slui.attach.init('.'+that.classArea);
+				globalui.attach.init('.'+that.classArea);
 			}
 
 			that.option = $.extend({}, that.defaultOption, options);
@@ -585,18 +573,6 @@ window.loading = loading;
 			} else {		//default is slide
 				$(element).height("0px");
 			}
-
-			//var verticalScrollBar = $(element).find("#expandScrollBar");
-			//if (this.vScrollBar) {
-			//	this.vScrollBar.jqxScrollBar('destroy');
-			//}
-
-			//if(isLimited){
-			//	this.vScrollBar = verticalScrollBar.jqxScrollBar({ 'vertical': true, _triggervaluechanged: false });
-			//	this.vScrollBar.css('visibility', 'hidden');
-
-			//	this.vScrollInstance = $.data(this.vScrollBar[0], 'jqxScrollBar').instance;
-			//}
 		},
 		expanding : function(url, after){
 			var that = that !=null ? that : this,
@@ -611,11 +587,6 @@ window.loading = loading;
 				dataType: 'text',
 				type: option.type,
 				data: option.data,
-				beforeSend:function(xhr){
-					/*if(option.displayLoader){
-						loading.show($container);
-					}*/
-				},
 				success: function(data){
 					var jsonData = null;
 					if(data.charAt(0) == '{') {
@@ -648,14 +619,7 @@ window.loading = loading;
 						$innercontainer.show(0, function(){
 							$container.addClass(that.classOpen);
 
-							//if( isLimited ){
-							//	$(this).css({
-							//		"height" : height + "px",
-							//		"min-height" : height+"px"
-							//	});
-							//}else{
-								$(this).height('');
-							//}
+							$(this).height('');
 							that.contentOverlay(true);
 						});
 
@@ -665,15 +629,9 @@ window.loading = loading;
 						}, option.speed, function(){
 							$(this).addClass(that.classOpen);
 
-							//if( isLimited ){
-							//	$(this).css({
-							//		"height" : height + "px",
-							//		"min-height" : height+"px"
-							//	});
-							//}else{
-								$(this).css("min-height","")
-									.height("")
-							//}
+							$(this).css("min-height","")
+								.height("");
+
 							that.contentOverlay(true);
 
 							if(option.displayLoader){
@@ -689,18 +647,10 @@ window.loading = loading;
 						$title.prependTo( $innercontainer.find('.'+that.classContent+':eq(0)'));
 					}
 
-					//if( isLimited ){
-					//	that.updateScroll(height);
-					//}
-
 					$innercontainer.find("[data-layer-close=true]").hide();
 				},
 				complete: function(){
 					after();
-
-					/*if(option.displayLoader){
-						loading.hide();
-					}*/
 				},
 				fail: function(){
 					that.destroyPage();
@@ -891,7 +841,6 @@ window.loading = loading;
 		that.classLayer = 'page-modal-area';
 		that.classLayerhead = 'modal-head';
 		that.classLayerbody = 'modal-body';
-		//that.classLayerfoot = 'modal-foot';
 		that.classBtnclose = 'btn-close';
 
 		that.option = $.extend({}, that.defaultOption, options);
@@ -934,9 +883,6 @@ window.loading = loading;
 				.addClass(that.classLayerbody)
 				.attr('data-page-body','true')
 				.appendTo($popup),
-			//$popupfoot = $('<div />')
-			//	.addClass(that.classLayerfoot)
-			//	.appendTo($popup),
 			$btnClose = $('<button />')
 				.attr('type','button')
 				.html('<i class="icon-times"></i>')
@@ -964,7 +910,7 @@ window.loading = loading;
 			that.$popup = $popup;
 
 			// window scroll 방지, modal scoll만 허용
-			slui.event.unitWheel( $container );
+			globalui.event.unitWheel( $container );
 
 			$btnClose.one( 'click' ,function(e){
 				if(that.option.effect == 'show'){
@@ -1043,7 +989,7 @@ window.loading = loading;
 				$handle.css('cursor','move');
 				$popup.draggable({
 					handle : $handle,
-					containment : 'body',	// '.'+that.classContainerpopup,
+					containment : 'body',
 					scroll: false
 				});
 			}
@@ -1072,11 +1018,6 @@ window.loading = loading;
 				type: that.option.type,
 				data: that.option.data,
 				dataType: 'text',
-				beforeSend:function(xhr){
-					//if(that.option.displayLoader){
-					//	loading.show($area);
-					//}
-				},
 				success: function(data){
 					var jsonData = null;
 					if(data.charAt(0) == '{') {
@@ -1125,10 +1066,10 @@ window.loading = loading;
 							$area.parents('.nano:eq(0)').nanoScroller();
 						},1000);
 					}
-					slui.event.unitWheel( $area.parents('.nano-content') );
+					globalui.event.unitWheel( $area.parents('.nano-content') );
 				},
 				complete: function(){
-					slui.attach.init('.'+that.classLayer);
+					globalui.attach.init('.'+that.classLayer);
 
 					if(that.option.onOpen != null){
 						that.option.onOpen( $container.find('.'+that.classLayer) );
@@ -1156,7 +1097,6 @@ window.loading = loading;
 		this.defaultOption = {
 			width : 400,
 			height : 300,
-			//zIndex : null,		무조건 modalpopup + 10
 			draggable : true,
 			backSelectable : true,
 			onOpen : null,
@@ -1187,8 +1127,6 @@ window.loading = loading;
 				return false;
 			}
 
-			//that.url = url;
-
 			$(element).off().on('click',function(){
 				if( $('body > .'+that.classLayer).size()>0 ){
 					$('.'+that.classLayer).remove();
@@ -1212,7 +1150,6 @@ window.loading = loading;
 
 			var $popup = $('<div />')
 				.addClass(that.classLayer)
-				//.attr('id',that.idLayer)
 				.css('display','none'),
 			$popuphead = $('<div />')
 				.addClass(that.classLayerhead)
@@ -1279,7 +1216,7 @@ window.loading = loading;
 				$handle.css('cursor','move');
 				that.$popup.draggable({
 					handle : $handle,
-					containment : 'body', 		//'.'+that.classContainerpopup,
+					containment : 'body',
 					scroll: false
 				});
 			}
@@ -1305,7 +1242,7 @@ window.loading = loading;
 				var _z = parseInt($('.page-modal-area:visible').css('z-index'));
 				$('.'+this.classBlank).css('z-index',parseInt+10);
 			}
-			slui.event.unitWheel( $('.'+this.classBlank) );
+			globalui.event.unitWheel( $('.'+this.classBlank) );
 		},
 		load : function($area, $container, url, option){
 			var that = this;
@@ -1315,11 +1252,6 @@ window.loading = loading;
 				dataType: 'text',
 				type: option.type,
 				data: option.data,
-				beforeSend:function(xhr){
-					//if(option.displayLoader){
-					//	loading.show($area);
-					//}
-				},
 				success: function(data){
 					$area.html(data);
 
@@ -1356,10 +1288,10 @@ window.loading = loading;
 							$area.parents('.nano:eq(0)').nanoScroller();
 						},1000);
 					}
-					slui.event.unitWheel( $area.parents('.nano-content') );
+					globalui.event.unitWheel( $area.parents('.nano-content') );
 				},
 				complete: function(){
-					slui.attach.init('.'+that.classLayer);
+					globalui.attach.init('.'+that.classLayer);
 
 					if(option.displayLoader){
 						loading.hide(that.$popup);
@@ -1447,11 +1379,6 @@ window.loading = loading;
 				dataType: 'text',
 				type: option.type,
 				data: option.data,
-				beforeSend:function(xhr){
-					//if(option.displayLoader){
-					//	loading.show($div);
-					//}
-				},
 				success: function(data){
 					$div.html(data);
 
@@ -1468,7 +1395,7 @@ window.loading = loading;
 						$parent.find('.'+that.classBtnPrev).remove();
 						$parent.find('.'+that.classBodyPrev).remove();
 
-						slui.attach.init('body');
+						globalui.attach.init('body');
 
 						if(that.option.onUnload !=null & event.originalEvent == undefined){
 							that.option.onUnload();
@@ -1496,7 +1423,7 @@ window.loading = loading;
 					if(that.option.onLoad!=null){
 						that.option.onLoad();
 					}
-					slui.attach.init('.'+that.classBodyLoaded);
+					globalui.attach.init('.'+that.classBodyLoaded);
 
 					$div.find('[data-layer-close=true]').one('click',function(event){
 						destroy(event);
@@ -1518,7 +1445,7 @@ window.loading = loading;
 				}
 			}).done(function(data){
 				$parent.find('.nano').nanoScroller({ scroll: 'top' });
-				slui.attach.init('.'+ $parent.attr('class'));
+				globalui.attach.init('.'+ $parent.attr('class'));
 			});
 		}
 	}
@@ -1665,8 +1592,8 @@ window.loading = loading;
 			}
 
 			// prevent body mousewheel
-			slui.event.unitWheel( that.$bg );
-			slui.event.unitWheel( $('.'+this.classModal) );
+			globalui.event.unitWheel( that.$bg );
+			globalui.event.unitWheel( $('.'+this.classModal) );
 		},
 		destroy : function(that, type){
 			that.$bg.remove();
@@ -1713,7 +1640,6 @@ window.loading = loading;
 				$obj = obj,
 				$p = $obj.parent()
 					.css("position","relative"),
-				//z = parseInt($p.css("z-index")),
 				w = parseInt($p.width()),
 				h = $p.height(),
 				$options = $obj.find("option"),
@@ -1735,7 +1661,6 @@ window.loading = loading;
 						width : w +"px",
 						height : h + "px"
 					})
-					//.attr("id","ui-select"+index)
 					.appendTo($p),
 				$textSelected = $("<span />")
 					.addClass(_this.classSelectInner)
@@ -1800,7 +1725,6 @@ window.loading = loading;
 				'tabindex' : '-1'
 			}).css({
 				position : "absolute",
-				//left : w *-1 + "px", top : h *-1 + "px",
 				left : "-9999px",
 				top : "-9999px",
 				opacity : 0,
@@ -1883,14 +1807,12 @@ window.loading = loading;
 				if( $parent.hasClass(_this.classOpen) ){
 					$parent.removeClass(_this.classOpen);
 					$p.find("."+_this.classSelect).css("z-index",z+1);
-					//$p.css("z-index",z);
 					$p.find('.'+_this.classOptionItem).attr('tabindex','-1');
 					_eventOptions($p.find('.'+_this.classOptionItem),0);
 				} else {
 					_this.closeSelect(z);
 					$parent.addClass(_this.classOpen);
 					$p.find("."+_this.classSelect).css("z-index",z+11);
-					//$p.css("z-index",z+10);
 					$p.find('.'+_this.classOptionItem).attr('tabindex','0');
 					_eventOptions($p.find('.'+_this.classOptionItem),1);
 
@@ -1901,7 +1823,7 @@ window.loading = loading;
 
 				$("."+_this.classSelect+' .nano').nanoScroller({ scrollTo: $('.selected') });
 				$("."+_this.classSelect+' .nano-content').each(function(){
-					slui.event.unitWheel( $(this) );
+					globalui.event.unitWheel( $(this) );
 				});
 				$("."+_this.classSelect+' .nano').nanoScroller();
 

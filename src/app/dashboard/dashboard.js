@@ -7,21 +7,21 @@
 		componentInstance : {},
 		chartInstance : {},
 		url : {
-			dashboard_list : '/dashboard/dashboard_list.json',						//대시보드 전체 목록 조회
+			dashboard_list : '/dashboard/dashboard_list.json',							//대시보드 전체 목록 조회
 			dashboard_tab_update : '/dashboard/dashboard_tab_update.do',		//탭 목록 수정
 			dashboard_seq_update : '/dashboard/dashboard_seq_update.do',		//대시보드 전체 목록 변경
-			dashboard_detail : '/dashboard/dashboard_detail.json',			//개별 대시보드 설정값 조회
-			dashboard_insert : '/dashboard/dashboard_insert.do',			//대시보드 생성
-			dashboard_update : '/dashboard/dashboard_update.do',		//대시보드 변경
-			dashboard_delete : '/dashboard/dashboard_delete.do',			//대시보드 삭제
+			dashboard_detail : '/dashboard/dashboard_detail.json',					//개별 대시보드 설정값 조회
+			dashboard_insert : '/dashboard/dashboard_insert.do',						//대시보드 생성
+			dashboard_update : '/dashboard/dashboard_update.do',					//대시보드 변경
+			dashboard_delete : '/dashboard/dashboard_delete.do',					//대시보드 삭제
 
-			component_layout_update : '/dashboard/component_layout_update.do',		//레이아웃 변경
-			component_list : '/dashboard/component_list.json',				//컴포넌트 목록 조회
-			component_insert : '/dashboard/component_insert.do',			//컴포넌트 생성
-			component_update : '/dashboard/component_update.do',		//컴포넌트 설정 변경
-			component_delete : '/dashboard/component_delete.do',			//컴포넌트 삭제
+			component_layout_update : '/dashboard/component_layout_update.do',	//레이아웃 변경
+			component_list : '/dashboard/component_list.json',						//컴포넌트 목록 조회
+			component_insert : '/dashboard/component_insert.do',					//컴포넌트 생성
+			component_update : '/dashboard/component_update.do',				//컴포넌트 설정 변경
+			component_delete : '/dashboard/component_delete.do',					//컴포넌트 삭제
 
-			share_list : '/dashboard/dashboard_share_list.json',				//공유 대시보드 목록 조회
+			share_list : '/dashboard/dashboard_share_list.json',					//공유 대시보드 목록 조회
 
 			user_list  : '/common/user_list.json',									//사용자 전체 조회 / 키워드 조회 : {"keyword":"이"} / 페이징 조회 : {"recordstartindex":0, "pagesize":100} 
 
@@ -69,7 +69,7 @@
 			componentBody : "area-body",
 			componentInner : "inner-body",
 			componentHover : "item-hover",
-			modalAdd : "dashboard-add",		//modalAdd : 'modal-dashboard-add'
+			modalAdd : "dashboard-add",
 			emptyBoard : "empty-board"
 		},
 		msg : {
@@ -105,7 +105,7 @@
 
 		dashboardInsert : function(){
 			var d = this,
-			$btnAdd = $(".group-side .btn-new"),		//$('.'+d.classname.groupTab+' .'+d.classname.btnAdd),
+			$btnAdd = $(".group-side .btn-new"),
 			$layer = $('.'+d.classname.modalAdd),
 			_autoCloseBoardadd = function(event){
 				var $target = $(event.target);
@@ -144,7 +144,7 @@
 					$(this).on('click',function(){
 						$(this).addClass(_classActive).siblings().removeClass(_classActive);;
 						$layer.find('.cont > div').eq(i).css({'height':'28px','display':'block'}).siblings().css('display','none');
-						slui.attach.setTransformSelect('.'+d.classname.modalAdd);
+						globalui.attach.setTransformSelect('.'+d.classname.modalAdd);
 					});
 				});
 
@@ -526,9 +526,6 @@
 						if($parent.hasClass(disabled)){
 							var $master = $('.'+d.classname.groupTab).find('[data-id='+id+']');
 
-							//$(_tablist).prepend( $master );
-							//_setTabPosition();
-
 							$master.addClass(active);
 							$master.siblings().removeClass(active);
 						} else {
@@ -541,7 +538,6 @@
 
 							$(_tablist+' li').removeClass(active);
 							$(_tablist).prepend( $clone );
-							//_setTabPosition();
 
 							d.dashboardlistArrow();
 
@@ -708,7 +704,7 @@
 						isMoving = true;
 						$listcontent.animate({
 							left : _dist
-						},500,function(){		//easeInQuint
+						},500,function(){
 							isMoving = false;
 						})
 					};
@@ -805,7 +801,7 @@
 				_drawLayout();
 				_loadComponent();
 
-				// 컴포넌트 추가 목록 설정
+				// setting component add list
 				if(ComponentInfoList){
 					_setComponentlist(ComponentInfoList);
 				}
@@ -866,7 +862,6 @@
 						'margin-left' : spare/2+'px',
 						'margin-right' : spare/2 +"px"
 					});
-					//$('.gridster').width($contentarea.outerWidth()+'px')
 
 					d.GRIDSTER.resize_widget_dimensions({
 						widget_base_dimensions : [unitsize - option.margin*2, option.rowHeight - option.margin*2]
@@ -898,7 +893,6 @@
 						'margin-left' : spare/2+'px',
 						'margin-right' : spare/2 +"px"
 					});
-					//$gridster.width($contentarea.outerWidth()+'px').appendTo($contentarea);
 					$gridster.appendTo($contentarea);
 
 					d.GRIDSTER = $ul.gridster({
@@ -1004,7 +998,7 @@
 				return $li;
 			},
 			_loadComponent = function(_arg){
-				if(arguments.length === 0){//} && typeof arguments[0] === 'function'){
+				if(arguments.length === 0){
 					// 전체 로드
 					$('.'+d.classname.board+' .'+d.classname.componentBody+' .'+d.classname.componentInner).each(function(i){
 						var _d = $(this).data();
@@ -1015,7 +1009,7 @@
 							};
 						});
 					});
-				}else if(arguments.length === 1 && typeof arguments[0] === 'object'){	//jquery object
+				}else if(arguments.length === 1 && typeof arguments[0] === 'object'){
 					// 사용자 추가 로드
 					var $element = _arg;
 					var _d = $element.data();
@@ -1050,7 +1044,8 @@
 				}
 
 				var serialize = d.GRIDSTER.serialize();
-				if(serialize.length != datas.length) return false;		//갯수 같지 않으면 UI 오류!
+				if(serialize.length != datas.length) return false;
+
 				for(var i=0, len = datas.length; i < len ;i++){
 					datas[i].pos_x = serialize[i].col;
 					datas[i].pos_y = serialize[i].row;
@@ -1090,7 +1085,6 @@
 							d.componentInstance[id].destroy();
 						}
 						if(d.chartInstance[id] != undefined){
-							//d.chartInstance[id].dispose();
 							delete d.chartInstance[id];
 						}
 						delete d.componentInstance[id];
@@ -1155,7 +1149,7 @@
 				}
 
 				//컴포넌트 레이어
-				$("."+d.classname.btnAdd).off('click').on('click',function(){			//$(".btn-addboard").off().on('click',function(){
+				$("."+d.classname.btnAdd).off('click').on('click',function(){
 					var _window = '.modal-dashboard.component-add',
 					$btn = $(this),
 					_hideComadd = function(){
@@ -1224,8 +1218,7 @@
 					}
 
 					var pos_y = d.GRIDSTER.container_height > 0 ? d.GRIDSTER.container_height : 1;
-					d.GRIDSTER.add_widget(html, min_unit, 10, 1, pos_y);		//(html, size_x, size_y, col, row)
-					//html.parents('.nano:eq(0)').nanoScroller({ scrollTo: html });
+					d.GRIDSTER.add_widget(html, min_unit, 10, 1, pos_y);
 					$contentarea.stop().animate({'scrollTop':html.position().top},700,'swing');
 
 					// 컴포넌트 설정
@@ -1253,7 +1246,7 @@
 			if(typeof arguments[0] == 'object'){							// 컨텐츠 전체
 				_init();
 
-			} else if(typeof arguments[0] == 'boolean'){				// 그리드 변경
+			} else if(typeof arguments[0] == 'boolean'){					// 그리드 변경
 				$gridarea = $('#'+_ga);
 				$contentarea = $('#'+_ba);
 
@@ -1268,7 +1261,7 @@
 
 		dashboardConfig : function(isrefresh){
 			var d = this,
-			loadUserTotal = false,				// 최초 전체 로드시 : true / 검색시 페이지별 로드 : false
+			loadUserTotal = false,				// true: 최초 전체 로드시, false: 검색시 페이지별 로드
 			_ = {
 				name : '#setting_name',
 				theme : '#setting_theme',
@@ -1322,8 +1315,8 @@
 						_loadUsers({})
 					}
 
-					slui.attach.setSwitchToggle('.dashboardsetting');
-					slui.attach.setTransformSelect('.dashboardsetting');
+					globalui.attach.setSwitchToggle('.dashboardsetting');
+					globalui.attach.setTransformSelect('.dashboardsetting');
 					if(d.option.share_yn=='Y'){
 						$('.dashboardsetting .nano').nanoScroller();
 					}
@@ -1619,7 +1612,7 @@
 				$layer =  $(_.share+' .layer-search-result').eq(_i),
 				$lists = $layer.find('li'),
 				cnt = 0,
-				_h = 22,				//related with design
+				_h = 22,				// **related with design
 
 				_setafter = function(){
 					if(cnt === 0){
@@ -1634,8 +1627,7 @@
 
 				$layer.find('.empty').remove();
 
-				if(!loadUserTotal && _i === 1){
-					// 사용자 키워드별 페이징 별 검색
+				if(!loadUserTotal && _i === 1){			// 사용자 키워드별 페이징 별 검색
 					_loadUsers(
 						{"keyword": $(_.share+' [type=text]').eq(1).val() , "recordstartindex":0, "pagesize":50},
 						function(){
@@ -1643,8 +1635,7 @@
 							_setafter();
 						}
 					);
-				} else {
-					// 기본
+				} else {			// 기본
 					for(var i=0, len=$lists.size(); i<len; i++){
 						if($lists.eq(i).text().indexOf(_input)!=-1){
 							$lists.eq(i).css('display','block');
@@ -1801,11 +1792,11 @@
 
 			//set chart color param
 			if(d.option.theme === 1){
-				c.chartstyles = $.extend({}, slui.chart.chartConfig, c.chartStyle, c.chartColors.blue);
+				c.chartstyles = $.extend({}, globalui.chart.chartConfig, c.chartStyle, c.chartColors.blue);
 			}else if(d.option.theme === 2){
-				c.chartstyles = $.extend({}, slui.chart.chartConfig, c.chartStyle, c.chartColors.dark);
+				c.chartstyles = $.extend({}, globalui.chart.chartConfig, c.chartStyle, c.chartColors.dark);
 			}else{
-				c.chartstyles = $.extend({}, slui.chart.chartConfig, c.chartStyle, c.chartColors.basic);
+				c.chartstyles = $.extend({}, globalui.chart.chartConfig, c.chartStyle, c.chartColors.basic);
 			}
 
 			if(typeof c.load != 'undefined'){
@@ -1865,7 +1856,7 @@
 						top : d.getConfigPos(c.$container, c.$config).top + 'px'
 					}).fadeIn(200,function(){
 						c.$container.addClass(c.classname.hold);
-						slui.attach.init('#config_'+c.container_id);
+						globalui.attach.init('#config_'+c.container_id);
 					});
 
 					_showConfig();
@@ -1987,7 +1978,6 @@
 			}
 		},
 		chartStyle : {
-			//"animation": "0",
 			"alternateHGridAlpha":"0",
 			"alternateVGridAlpha":"0",
 			"labelFontSize":"10",
@@ -2031,7 +2021,7 @@
 				"bgColor": "#000139",
 				"borderColor" : "#eeeeee",
 				"canvasBgColor" : "#000139",
-				"divLineColor" : "#18265e",			//"#1b2f7f",
+				"divLineColor" : "#18265e",
 				"legendBgColor" : "#000139",
 				"plotBorderColor": "#000d94",
 				"toolTipBorderThickness": "1",
@@ -2050,13 +2040,13 @@
 
 
 $(function(){
-	//탭 랜더링
+	// rendering tab
 	$('body').requestData($.Dashboard.url.dashboard_list, {},
 		{callback : function(data){
 			$.Dashboard.dashboardlist(data);
 		}
 	});
 
-	//대시보드 추가 레이어
+	// init dashboard addlayer
 	$.Dashboard.dashboardInsert();
 });

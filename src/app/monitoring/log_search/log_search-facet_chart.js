@@ -1,4 +1,5 @@
 //# sourceURL=log_search-facet_chart.js
+
 'use strict';
 
 _SL.nmspc("logsearch").facetChart = function(){
@@ -30,7 +31,6 @@ _SL.nmspc("logsearch").facetChart = function(){
 		},
 		
 		chartStyle : {
-			//"animation": "0",
 			"formatnumberscale": "0",
 			"baseFontSize": "9",
 			"bgColor": "#ffffff",
@@ -112,7 +112,7 @@ _SL.nmspc("logsearch").facetChart = function(){
 		var datas = mState.facetDatas;
 
 		var items = function(){
-			mCfg.chartStyle = $.extend({}, slui.chart.chartConfig, mCfg.chartStyle);
+			mCfg.chartStyle = $.extend({}, globalui.chart.chartConfig, mCfg.chartStyle);
 			if(fields.length > 2){
 				mCfg.chartStyle.showLegend = "0";
 			} else {
@@ -224,7 +224,7 @@ _SL.nmspc("logsearch").facetChart = function(){
 		$('html, body').on('mousedown', _checkLayerClose);
 
 		// prevent window mousewheel
-		slui.event.unitWheel( m$.totalLayer.find('.modal-body') );
+		globalui.event.unitWheel( m$.totalLayer.find('.modal-body') );
 	},
 
 	_hideLayer = function(){
@@ -274,7 +274,6 @@ _SL.nmspc("logsearch").facetChart = function(){
 				_total = rsData.totalRow;
 
 				if(_idx === 0){
-					//$(mCfg.DOM.layer+' h4').text( mState.fieldsMap[_field]+'('+_SL.toComma(rsData.totalRow)+')' );
 					$(mCfg.DOM.layer+' h4').text( '전체목록' );
 
 					var
@@ -412,7 +411,6 @@ _SL.nmspc("logsearch").facetChart = function(){
 				setDataCookies();
 
 				if(_id){
-					//FusionCharts.items[_id].dispose();
 					delete FusionCharts.items[_id];
 				}
 
@@ -428,7 +426,6 @@ _SL.nmspc("logsearch").facetChart = function(){
 		m$.chart.droppable({
 			accept : ".slui-draggable",
 			scope : "dropField",
-			//activeClass: "ui-state-hover",
 			hoverClass: "drop-active",
 			activate: function(event,ui){
 				var field = ui.helper.data("field_name");
