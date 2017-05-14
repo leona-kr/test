@@ -20,7 +20,7 @@ _SL.nmspc("login").form = function() {
 	
 	// JQuery 객체 변수
 	m$ = {
-		form		: $(mCfg.form),
+		form			: $(mCfg.form),
 		userId		: $(mCfg.userId),
 		userPswd	: $(mCfg.userPswd),
 		checkSave	: $(mCfg.checkSave),
